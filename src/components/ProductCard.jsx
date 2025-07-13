@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../context/cartContext";
 import { toast } from "react-toastify";
 
-const ProductCard = ({ product, viewMode }) => { // Accept viewMode prop
+const ProductCard = ({ product, viewMode }) => { 
 
   const { dispatch, cartItems } = useCart();
 
@@ -18,8 +18,8 @@ const ProductCard = ({ product, viewMode }) => { // Accept viewMode prop
     <div 
       className={`bg-white rounded-lg shadow-md p-4 
         ${viewMode === 'grid' 
-          ? 'flex flex-col' // Grid: column layout for individual card
-          : 'flex flex-row items-center space-x-4 w-full' // List: row layout, align items, add space-x
+          ? 'flex flex-col'
+          : 'flex flex-row items-center space-x-4 w-full'
         }
       `}
     >
@@ -27,19 +27,19 @@ const ProductCard = ({ product, viewMode }) => { // Accept viewMode prop
         to={`/product/${product.id}`} 
         className={`${
           viewMode === 'grid' 
-            ? 'w-full h-48 mb-4' // Grid: set specific image height and margin-bottom
-            : 'w-32 h-32 flex-shrink-0' // List: smaller fixed size, prevent shrinking
+            ? 'w-full h-48 mb-4' 
+            : 'w-32 h-32 flex-shrink-0' 
         }`}
       >
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover rounded" // Apply to both, object-cover is key
+          className="w-full h-full object-cover rounded" 
         />
       </Link>
       <div 
         className={`flex-grow ${
-          viewMode === 'list' ? 'flex flex-col justify-center' : '' // List: allow content to grow, center vertically
+          viewMode === 'list' ? 'flex flex-col justify-center' : '' 
         }`}
       >
         <Link to={`/product/${product.id}`}> 

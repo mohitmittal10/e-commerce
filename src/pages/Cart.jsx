@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/cartContext";
 import { toast } from "react-toastify";
-
 const Cart = () => {
   const { cartItems, dispatch } = useCart();
 
@@ -47,8 +46,7 @@ const Cart = () => {
     const totalAmount = getTotal();
 
     try {
-      // Step 1: Call your backend to create a Razorpay order
-      // Fixed: Changed port from 5173 to 5000
+    
       const response = await fetch('http://localhost:5000/api/create-razorpay-order', {
         method: 'POST',
         headers: {
@@ -66,19 +64,17 @@ const Cart = () => {
       const { orderId, amount, currency } = orderData;
 
       const options = {
-        // Fixed: Remove process.env from frontend - use your actual Razorpay key_id here
-        key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Razorpay key_id
-        amount: amount, // Amount from the backend order
-        currency: currency, // Currency from the backend order
-        name: "Your E-commerce Store",
+        
+        key: "rzp_test_efxePkQ7kA9I1l", 
+     
+        amount: amount, 
+        currency: currency, 
+        name: "ShopStore",
         description: "Purchase from Your Store",
-        image: "https://your-company-logo.png", // Replace with your actual logo URL
-        order_id: orderId, // The order ID obtained from your backend
+        order_id: orderId, 
         handler: async function (response) {
-          // This function is called when the payment is successful on Razorpay's end
-          // Step 2: Send payment details to your backend for verification
+          
           try {
-            // Fixed: Changed port from 5173 to 5000
             const verifyResponse = await fetch('http://localhost:5000/api/verify-razorpay-payment', {
               method: 'POST',
               headers: {
@@ -94,9 +90,9 @@ const Cart = () => {
             const verifyData = await verifyResponse.json();
 
             if (verifyData.status === "success") {
-              console.log("Payment successful and verified:", verifyData);
+              
               toast.success("Payment Successful!");
-              dispatch({ type: "CLEAR_CART" }); // Clear cart only after backend verification
+              dispatch({ type: "CLEAR_CART" }); 
             } else {
               console.error("Payment successful but verification failed:", verifyData);
               toast.error("Payment Verification Failed! Please contact support.");
@@ -107,15 +103,15 @@ const Cart = () => {
           }
         },
         prefill: {
-          name: "John Doe", // Optional: prefill customer name
-          email: "john.doe@example.com", // Optional: prefill customer email
-          contact: "9999999999", // Optional: prefill customer contact
+          name: "John Doe", 
+          email: "john.doe@example.com", 
+          contact: "9999999999", 
         },
         notes: {
           address: "Your Store Address, City, State",
         },
         theme: {
-          color: "#F37254", // Optional: Change the theme color of Razorpay checkout
+          color: "#F37254", 
         },
       };
 

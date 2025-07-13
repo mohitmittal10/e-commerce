@@ -1,12 +1,11 @@
 import products from "../data/products";
 import ProductCard from "../components/ProductCard";
 import { useFilter } from "../context/filterContext";
-import { useState } from "react"; // Import useState
+import { useState } from "react";
 
 const Products = () => {
   const { filteredProducts, categories, selectedCategory, setSelectedCategory, selectedPrice, setSelectedPrice } = useFilter();
 
-  // New state to manage the layout view (default to 'grid')
   const [viewMode, setViewMode] = useState('grid'); 
 
   return (
@@ -15,7 +14,6 @@ const Products = () => {
         All Products
       </h2>
 
-      {/* Filter Controls */}
       <div className="flex flex-wrap gap-4 justify-center mb-8">
         <div>
           <label className="mr-2 font-medium">Category:</label>
@@ -46,7 +44,6 @@ const Products = () => {
           </select>
         </div>
 
-        {/* New View Mode Controls */}
         <div>
           <label className="mx-2 font-medium">View:</label>
           <button
@@ -68,7 +65,6 @@ const Products = () => {
         </div>
       </div>
 
-      {/* Product Grid/List */}
       <div 
         className={`max-w-6xl mx-auto ${
           viewMode === 'grid' 
@@ -78,7 +74,7 @@ const Products = () => {
       >
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
-            <ProductCard product={product} key={product.id} viewMode={viewMode} /> // Pass viewMode to ProductCard
+            <ProductCard product={product} key={product.id} viewMode={viewMode} />
           ))
         ) : (
           <p className="text-center col-span-full">No products found.</p>
