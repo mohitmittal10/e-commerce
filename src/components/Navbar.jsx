@@ -18,7 +18,12 @@ const Navbar = () => {
         <nav className="bg-white shadow-md sticky top-0 z-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
                 {/* Logo */}
-                <div className="text-2xl font-bold text-orange-600">ShopStore</div>
+                <div className="text-2xl font-bold">
+                    <Link to={"/"} className="hover:text-orange-600">
+                        <span className="text-gray-800">Shop</span>
+                        <span className="text-orange-600">Store</span>
+                    </Link>
+                </div>
 
                 {/* Desktop Menu */}
                 <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">

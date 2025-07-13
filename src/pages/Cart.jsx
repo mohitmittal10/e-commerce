@@ -21,9 +21,26 @@ const Cart = () => {
     return cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   };
 
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
   const initiateRazorpay = async () => {
     if (cartItems.length === 0) {
       toast.info("Your cart is empty. Add items to proceed.");
+      return;
+    }
+
+    // Load Razorpay script
+    const isRazorpayLoaded = await loadRazorpayScript();
+    if (!isRazorpayLoaded) {
+      toast.error("Failed to load Razorpay. Please try again.");
       return;
     }
 
@@ -31,6 +48,7 @@ const Cart = () => {
 
     try {
       // Step 1: Call your backend to create a Razorpay order
+      // Fixed: Changed port from 5173 to 5000
       const response = await fetch('http://localhost:5000/api/create-razorpay-order', {
         method: 'POST',
         headers: {
@@ -48,7 +66,8 @@ const Cart = () => {
       const { orderId, amount, currency } = orderData;
 
       const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Use environment variable for frontend if deployed
+        // Fixed: Remove process.env from frontend - use your actual Razorpay key_id here
+        key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Razorpay key_id
         amount: amount, // Amount from the backend order
         currency: currency, // Currency from the backend order
         name: "Your E-commerce Store",
@@ -59,6 +78,7 @@ const Cart = () => {
           // This function is called when the payment is successful on Razorpay's end
           // Step 2: Send payment details to your backend for verification
           try {
+            // Fixed: Changed port from 5173 to 5000
             const verifyResponse = await fetch('http://localhost:5000/api/verify-razorpay-payment', {
               method: 'POST',
               headers: {

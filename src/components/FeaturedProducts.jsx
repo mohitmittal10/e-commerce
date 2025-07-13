@@ -8,7 +8,7 @@ const FeaturedProducts = () => {
                 Featured Products
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {products.slice(0, 6).map((product) => (
+                {products.slice(0, 3).map((product) => (
                     <ProductCard product={product} key={product.id} />
                 ))}
             </div>
